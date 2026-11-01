@@ -9,13 +9,16 @@ import java.util.List;
 
 public class SortAnimator {
     private final SortingPanel panel;
+    private final SortingStatsPanel statsPanel;
+    private long sortTimeNs;
     private final Timer timer;
 
     private List<SortEvent> events;
     private int currentEventIndex;
 
-    public SortAnimator(SortingPanel panel){
+    public SortAnimator(SortingPanel panel, SortingStatsPanel statsPanel){
         this.panel = panel;
+        this.statsPanel = statsPanel;
 
         timer = new Timer(50, event -> playNextEvent());
     }
@@ -30,12 +33,15 @@ public class SortAnimator {
         RecordingSortObserver observer = new RecordingSortObserver();
         BubbleSort algorithm = new BubbleSort();
 
+        long startTime = System.nanoTime();
         algorithm.sort(originalArray.clone(), observer);
+        sortTimeNs = System.nanoTime() - startTime;
 
         events = observer.getEvents();
         currentEventIndex = 0;
 
         panel.setArray(originalArray.clone());
+        countEvents();
 
         if(events.isEmpty()){
             return;
@@ -103,5 +109,26 @@ public class SortAnimator {
 
     public boolean isRunning(){
         return timer.isRunning();
+    }
+
+    public void countEvents(){
+        int compareCount = 0;
+        int swapCount = 0;
+        int writeCount = 0;
+
+        for(SortEvent event : events){
+            switch(event.type()){
+                case COMPARE -> compareCount++;
+                case SWAP -> swapCount++;
+                case WRITE -> writeCount++;
+            }
+        }
+
+        statsPanel.updateStats(
+                sortTimeNs,
+                compareCount,
+                swapCount,
+                writeCount
+        );
     }
 }

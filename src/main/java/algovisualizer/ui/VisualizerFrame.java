@@ -11,7 +11,8 @@ public class VisualizerFrame extends JFrame {
         super("Algorithm Visualizer");
 
         sortingPanel = new SortingPanel(10);
-        animator = new SortAnimator(sortingPanel);
+        SortingStatsPanel statsPanel = new SortingStatsPanel();
+        animator = new SortAnimator(sortingPanel, statsPanel);
 
         JButton generateButton = new JButton("Generate");
         JButton sortButton = new JButton("Sort");
@@ -20,9 +21,15 @@ public class VisualizerFrame extends JFrame {
         buttonPanel.add(generateButton);
         buttonPanel.add(sortButton);
 
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+
+        bottomPanel.add(buttonPanel, BorderLayout.NORTH);
+        bottomPanel.add(statsPanel, BorderLayout.SOUTH);
+
         generateButton.addActionListener(event -> {
             if (!animator.isRunning()) {
                 sortingPanel.generateArray(10);
+                statsPanel.resetStats();
             }
         });
 
@@ -34,7 +41,7 @@ public class VisualizerFrame extends JFrame {
 
         setLayout(new BorderLayout());
         add(sortingPanel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -2,6 +2,9 @@ package algovisualizer.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class SortingPanel extends JPanel {
@@ -21,6 +24,8 @@ public class SortingPanel extends JPanel {
         for(int i = 0; i < array.length; i++){
             array[i] = random.nextInt(1,101);
         }
+
+        System.out.println(Arrays.toString(array));
 
         firstIndex = -1;
         secondIndex = -1;
