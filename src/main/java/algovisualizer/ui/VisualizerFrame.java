@@ -14,6 +14,12 @@ public class VisualizerFrame extends JFrame {
         SortingStatsPanel statsPanel = new SortingStatsPanel();
         animator = new SortAnimator(sortingPanel, statsPanel);
 
+        JSlider delaySlider = new JSlider(0, 200, 50);
+        delaySlider.setMajorTickSpacing(50);
+        delaySlider.setMinorTickSpacing(10);
+        delaySlider.setPaintTicks(true);
+        delaySlider.setPaintLabels(true);
+
         JButton generateButton = new JButton("Generate");
         JButton sortButton = new JButton("Sort");
 
@@ -21,10 +27,19 @@ public class VisualizerFrame extends JFrame {
         buttonPanel.add(generateButton);
         buttonPanel.add(sortButton);
 
+        JPanel delayPanel = new JPanel(new BorderLayout());
+        delayPanel.add(new JLabel("Animation delay (ms):"), BorderLayout.NORTH);
+        delayPanel.add(delaySlider, BorderLayout.CENTER);
+
         JPanel bottomPanel = new JPanel(new BorderLayout());
 
         bottomPanel.add(buttonPanel, BorderLayout.NORTH);
         bottomPanel.add(statsPanel, BorderLayout.SOUTH);
+        bottomPanel.add(delayPanel, BorderLayout.CENTER);
+
+        delaySlider.addChangeListener(event ->{
+            animator.setDelay(delaySlider.getValue());
+        });
 
         generateButton.addActionListener(event -> {
             if (!animator.isRunning()) {

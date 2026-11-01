@@ -131,4 +131,8 @@ public class SortAnimator {
                 writeCount
         );
     }
+
+    public void setDelay(int delay){
+        timer.setDelay(delay);
+    }
 }
