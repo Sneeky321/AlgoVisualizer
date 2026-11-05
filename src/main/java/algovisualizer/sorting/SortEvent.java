@@ -9,6 +9,7 @@ public record SortEvent(
     public enum Type{
         COMPARE,
         SWAP,
-        WRITE
+        WRITE,
+        SET_KEY
     }
 }

@@ -1,5 +1,8 @@
 package algovisualizer.ui;
 
+import algovisualizer.sorting.BubbleSort;
+import algovisualizer.sorting.InsertionSort;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +15,7 @@ public class VisualizerFrame extends JFrame {
 
         sortingPanel = new SortingPanel(10);
         SortingStatsPanel statsPanel = new SortingStatsPanel();
-        animator = new SortAnimator(sortingPanel, statsPanel);
+        animator = new SortAnimator(sortingPanel, statsPanel, new InsertionSort());
 
         JSlider delaySlider = new JSlider(0, 200, 50);
         delaySlider.setMajorTickSpacing(50);

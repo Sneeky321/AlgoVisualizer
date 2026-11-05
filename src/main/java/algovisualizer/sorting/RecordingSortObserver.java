@@ -36,6 +36,16 @@ public class RecordingSortObserver implements SortObserver{
         ));
     }
 
+    @Override
+    public void onSetKey(int value){
+        events.add(new SortEvent(
+                SortEvent.Type.SET_KEY,
+                -1,
+                -1,
+                value
+        ));
+    }
+
     public List<SortEvent> getEvents(){
         return List.copyOf(events);
     }

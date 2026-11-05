@@ -3,11 +3,13 @@ package algovisualizer.ui;
 import algovisualizer.sorting.BubbleSort;
 import algovisualizer.sorting.RecordingSortObserver;
 import algovisualizer.sorting.SortEvent;
+import algovisualizer.sorting.SortingAlgorithm;
 
 import javax.swing.Timer;
 import java.util.List;
 
 public class SortAnimator {
+    private SortingAlgorithm algorithm;
     private final SortingPanel panel;
     private final SortingStatsPanel statsPanel;
     private long sortTimeNs;
@@ -16,9 +18,11 @@ public class SortAnimator {
     private List<SortEvent> events;
     private int currentEventIndex;
 
-    public SortAnimator(SortingPanel panel, SortingStatsPanel statsPanel){
+    public SortAnimator(SortingPanel panel, SortingStatsPanel statsPanel,
+                        SortingAlgorithm algorithm){
         this.panel = panel;
         this.statsPanel = statsPanel;
+        this.algorithm = algorithm;
 
         timer = new Timer(50, event -> playNextEvent());
     }
@@ -31,7 +35,6 @@ public class SortAnimator {
         int[] originalArray = panel.getArray().clone();
 
         RecordingSortObserver observer = new RecordingSortObserver();
-        BubbleSort algorithm = new BubbleSort();
 
         long startTime = System.nanoTime();
         algorithm.sort(originalArray.clone(), observer);
@@ -91,6 +94,10 @@ public class SortAnimator {
                         -1
                 );
             }
+
+            case SET_KEY -> {
+                panel.setKeyValue(currentEvent.value());
+            }
         }
 
         panel.repaint();
@@ -99,6 +106,7 @@ public class SortAnimator {
         if(currentEventIndex >= events.size()){
             timer.stop();
             panel.setHighlitedIndices(-1, -1);
+            panel.setKeyValue(null);
         }
     }
 
@@ -121,6 +129,7 @@ public class SortAnimator {
                 case COMPARE -> compareCount++;
                 case SWAP -> swapCount++;
                 case WRITE -> writeCount++;
+                case SET_KEY -> {}
             }
         }
 
@@ -134,5 +143,11 @@ public class SortAnimator {
 
     public void setDelay(int delay){
         timer.setDelay(delay);
+    }
+
+    public void setAlgorithm(SortingAlgorithm algorithm){
+        if(!timer.isRunning()){
+            this.algorithm = algorithm;
+        }
     }
 }

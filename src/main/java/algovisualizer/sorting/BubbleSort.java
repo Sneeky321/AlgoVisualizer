@@ -1,6 +1,7 @@
 package algovisualizer.sorting;
 
-public class BubbleSort {
+public class BubbleSort implements SortingAlgorithm {
+    @Override
     public void sort(int[] array, SortObserver observer){
         for(int i = 0; i < array.length - 1; i++){
             for(int j = 0; j < array.length - 1 - i; j++){

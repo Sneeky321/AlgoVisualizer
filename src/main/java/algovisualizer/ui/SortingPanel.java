@@ -12,6 +12,8 @@ public class SortingPanel extends JPanel {
     private int firstIndex = -1;
     private int secondIndex = -1;
 
+    private Integer keyValue;
+
     public SortingPanel(int size){
         setBackground(Color.WHITE);
         generateArray(size);
@@ -47,6 +49,11 @@ public class SortingPanel extends JPanel {
         repaint();
     }
 
+    public void setKeyValue(Integer keyValue){
+        this.keyValue = keyValue;
+        repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -72,6 +79,11 @@ public class SortingPanel extends JPanel {
                 g.setColor(Color.BLUE);
             }
             g.fillRoundRect(x, y, Math.max(1, barWidth - 10), barHeight, 20, 20);
+        }
+
+        if(keyValue != null){
+            g.setColor(Color.ORANGE);
+            g.drawString("Key: " + keyValue, 10, 20);
         }
     }
 }
