@@ -2,6 +2,7 @@ package algovisualizer.ui;
 
 import algovisualizer.sorting.BubbleSort;
 import algovisualizer.sorting.InsertionSort;
+import algovisualizer.sorting.SelectionSort;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +10,20 @@ import java.awt.*;
 public class VisualizerFrame extends JFrame {
     private final SortingPanel sortingPanel;
     private final SortAnimator animator;
+    private final JComboBox<String> algorithmSelector;
 
     public VisualizerFrame(){
         super("Algorithm Visualizer");
 
         sortingPanel = new SortingPanel(10);
         SortingStatsPanel statsPanel = new SortingStatsPanel();
-        animator = new SortAnimator(sortingPanel, statsPanel, new InsertionSort());
+        animator = new SortAnimator(sortingPanel, statsPanel, new SelectionSort());
+
+        algorithmSelector = new JComboBox<>(new String[]{
+                "Bubble Sort",
+                "Insertion Sort",
+                "Selection Sort"
+        });
 
         JSlider delaySlider = new JSlider(0, 200, 50);
         delaySlider.setMajorTickSpacing(50);
@@ -29,6 +37,7 @@ public class VisualizerFrame extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(generateButton);
         buttonPanel.add(sortButton);
+        buttonPanel.add(algorithmSelector);
 
         JPanel delayPanel = new JPanel(new BorderLayout());
         delayPanel.add(new JLabel("Animation delay (ms):"), BorderLayout.NORTH);
@@ -54,6 +63,21 @@ public class VisualizerFrame extends JFrame {
         sortButton.addActionListener(event -> {
             if (!animator.isRunning()) {
                 animator.start();
+            }
+        });
+
+        algorithmSelector.addActionListener(event -> {
+            if(!animator.isRunning()){
+                String selected = (String) algorithmSelector.getSelectedItem();
+
+                switch(selected){
+                    case "Bubble Sort" ->
+                        animator.setAlgorithm(new BubbleSort());
+                    case "Insertion Sort" ->
+                        animator.setAlgorithm(new InsertionSort());
+                    case "Selection Sort" ->
+                        animator.setAlgorithm(new SelectionSort());
+                }
             }
         });
 
