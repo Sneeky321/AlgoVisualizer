@@ -1,18 +1,17 @@
 package algovisualizer.ui;
 
+import algovisualizer.sorting.SortEvent;
+
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class SortingPanel extends JPanel {
     private int[] array;
     private int firstIndex = -1;
     private int secondIndex = -1;
-
-    private Integer keyValue;
+    private SortEvent.Type currentOperation;
 
     public SortingPanel(int size){
         setBackground(Color.WHITE);
@@ -31,6 +30,7 @@ public class SortingPanel extends JPanel {
 
         firstIndex = -1;
         secondIndex = -1;
+        currentOperation = null;
         repaint();
     }
 
@@ -43,14 +43,17 @@ public class SortingPanel extends JPanel {
         repaint();
     }
 
-    public void setHighlitedIndices(int firstIndex, int secondIndex){
+    public void setHighligtedOperation(int firstIndex, int secondIndex, SortEvent.Type currentOperation){
         this.firstIndex = firstIndex;
         this.secondIndex = secondIndex;
+        this.currentOperation = currentOperation;
         repaint();
     }
 
-    public void setKeyValue(Integer keyValue){
-        this.keyValue = keyValue;
+    public void clearHighlight(){
+        firstIndex = -1;
+        secondIndex = -1;
+        currentOperation = null;
         repaint();
     }
 
@@ -62,28 +65,38 @@ public class SortingPanel extends JPanel {
             return;
         }
 
-        int panelWidth = getWidth();
-        int panelHeight = getHeight();
+        int padding = 20;
+
+        int panelWidth = getWidth() - 2 * padding;
+        int panelHeight = getHeight() - 2 * padding;
         int barWidth = panelWidth / array.length;
         int maxValue = 100;
 
         for(int i = 0; i < array.length; i++){
-            int barHeight = (int) ((double) array[i] / maxValue * panelHeight);
+            int barHeight = Math.max(
+                    8,
+                    (int) ((double) array[i] / maxValue * panelHeight)
+            );
 
-            int x = i * barWidth;
-            int y = panelHeight - barHeight;
+            int x = padding + i * barWidth;
+            int y = padding + panelHeight - barHeight;
+
+            Color barColor = Color.BLUE;
 
             if(i == firstIndex || i == secondIndex){
-                g.setColor(Color.RED);
-            } else{
-                g.setColor(Color.BLUE);
+                if(currentOperation == SortEvent.Type.COMPARE){
+                    barColor = Color.YELLOW;
+                } else if(currentOperation == SortEvent.Type.SWAP){
+                    barColor = Color.RED;
+                } else if(currentOperation == SortEvent.Type.WRITE){
+                    barColor = Color.GREEN;
+                }
             }
+
+            g.setColor(barColor);
+
             g.fillRoundRect(x, y, Math.max(1, barWidth - 10), barHeight, 20, 20);
         }
 
-        if(keyValue != null){
-            g.setColor(Color.ORANGE);
-            g.drawString("Key: " + keyValue, 10, 20);
-        }
     }
 }

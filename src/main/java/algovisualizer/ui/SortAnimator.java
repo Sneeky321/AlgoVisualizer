@@ -63,9 +63,10 @@ public class SortAnimator {
 
         switch(currentEvent.type()){
             case COMPARE -> {
-                panel.setHighlitedIndices(
+                panel.setHighligtedOperation(
                         currentEvent.firstIndex(),
-                        currentEvent.secondIndex()
+                        currentEvent.secondIndex(),
+                        SortEvent.Type.COMPARE
                 );
             }
 
@@ -78,9 +79,10 @@ public class SortAnimator {
                 array[currentEvent.secondIndex()] = temp;
 
 
-                panel.setHighlitedIndices(
+                panel.setHighligtedOperation(
                         currentEvent.firstIndex(),
-                        currentEvent.secondIndex()
+                        currentEvent.secondIndex(),
+                        SortEvent.Type.SWAP
                 );
 
             }
@@ -89,14 +91,11 @@ public class SortAnimator {
                 panel.getArray()[currentEvent.firstIndex()] =
                         currentEvent.value();
 
-                panel.setHighlitedIndices(
+                panel.setHighligtedOperation(
                         currentEvent.firstIndex(),
-                        -1
+                        -1,
+                        SortEvent.Type.WRITE
                 );
-            }
-
-            case SET_KEY -> {
-                panel.setKeyValue(currentEvent.value());
             }
         }
 
@@ -105,14 +104,13 @@ public class SortAnimator {
 
         if(currentEventIndex >= events.size()){
             timer.stop();
-            panel.setHighlitedIndices(-1, -1);
-            panel.setKeyValue(null);
+            panel.clearHighlight();
         }
     }
 
     public void stop(){
         timer.stop();
-        panel.setHighlitedIndices(-1, -1);
+        panel.clearHighlight();
     }
 
     public boolean isRunning(){
@@ -129,7 +127,6 @@ public class SortAnimator {
                 case COMPARE -> compareCount++;
                 case SWAP -> swapCount++;
                 case WRITE -> writeCount++;
-                case SET_KEY -> {}
             }
         }
 
