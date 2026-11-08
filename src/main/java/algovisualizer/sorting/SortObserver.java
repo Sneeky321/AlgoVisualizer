@@ -6,6 +6,4 @@ public interface SortObserver {
     void onSwap(int firstIndex, int secondIndex);
 
     void onWrite(int index, int value);
-
-    void onSetKey(int value);
 }

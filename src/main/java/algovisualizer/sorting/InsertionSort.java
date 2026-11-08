@@ -7,8 +7,6 @@ public class InsertionSort implements SortingAlgorithm {
             int key = array[i];
             int j = i - 1;
 
-            observer.onSetKey(key);
-
             while(j >= 0){
                 observer.onCompare(j, j + 1);
 
@@ -22,6 +20,19 @@ public class InsertionSort implements SortingAlgorithm {
             }
             array[j + 1] = key;
             observer.onWrite(j + 1, key);
+        }
+    }
+
+    public void sorting(int[] array){
+        for(int i = 1; i < array.length; i++ ){
+            int key = array[i];
+            int j = i - 1;
+
+            while(j >= 0 && array[j] > key){
+                array[j + 1] = array[j];
+                j--;
+            }
+            array[j + 1] = key;
         }
     }
 }
