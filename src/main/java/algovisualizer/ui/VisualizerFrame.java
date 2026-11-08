@@ -14,9 +14,9 @@ public class VisualizerFrame extends JFrame {
     private final SortAnimator animator;
     private final JComboBox<String> algorithmSelector;
 
-    private static final Color BACKGROUND = new Color(28, 37, 52);
-    private static final Color PANEL_BACKGROUND = new Color(36, 47, 64);
-    private static final Color TEXT_COLOR = new Color(225, 232, 242);
+    private static final Color BACKGROUND = new Color(30, 40, 50);
+    private static final Color PANEL_BACKGROUND = new Color(40, 50, 60);
+    private static final Color TEXT_COLOR = new Color(225, 230, 240);
 
     public VisualizerFrame(){
         super("Algorithm Visualizer");
@@ -30,6 +30,10 @@ public class VisualizerFrame extends JFrame {
                 "Insertion Sort",
                 "Selection Sort",
                 "Merge Sort"
+        });
+
+        animator.setOnAnimationFinished(() -> {
+            algorithmSelector.setEnabled(true);
         });
 
         JPanel topPanel = createTopPanel();
@@ -131,7 +135,7 @@ public class VisualizerFrame extends JFrame {
         JButton sortButton = new JButton("Sort");
 
         styleButton(generateButton, new Color(65, 85, 115));
-        styleButton(sortButton, new Color(50, 139, 104));
+        styleButton(sortButton, new Color(50, 140, 105));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 8));
         buttonPanel.setBackground(BACKGROUND);
@@ -173,6 +177,7 @@ public class VisualizerFrame extends JFrame {
 
         sortButton.addActionListener(event -> {
             if (!animator.isRunning()) {
+                algorithmSelector.setEnabled(false);
                 animator.start();
             }
         });

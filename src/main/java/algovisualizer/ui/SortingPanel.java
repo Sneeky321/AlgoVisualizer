@@ -13,8 +13,10 @@ public class SortingPanel extends JPanel {
     private int secondIndex = -1;
     private SortEvent.Type currentOperation;
 
+    private static final Color BACKGROUND = new Color(30, 40, 50);
+
     public SortingPanel(int size){
-        setBackground(Color.WHITE);
+        setBackground(BACKGROUND);
         generateArray(size);
     }
 
@@ -43,7 +45,7 @@ public class SortingPanel extends JPanel {
         repaint();
     }
 
-    public void setHighligtedOperation(int firstIndex, int secondIndex, SortEvent.Type currentOperation){
+    public void setHighlightedOperation(int firstIndex, int secondIndex, SortEvent.Type currentOperation){
         this.firstIndex = firstIndex;
         this.secondIndex = secondIndex;
         this.currentOperation = currentOperation;
@@ -65,10 +67,17 @@ public class SortingPanel extends JPanel {
             return;
         }
 
+        Graphics2D g2 = (Graphics2D) g.create();
+
+        g2.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
+        );
+
         int padding = 20;
 
         int panelWidth = getWidth() - 2 * padding;
-        int panelHeight = getHeight() - 2 * padding;
+        int panelHeight = getHeight() - 2 * padding - 20;
         int barWidth = panelWidth / array.length;
         int maxValue = 100;
 
@@ -93,10 +102,25 @@ public class SortingPanel extends JPanel {
                 }
             }
 
-            g.setColor(barColor);
+            g2.setColor(barColor);
 
-            g.fillRoundRect(x, y, Math.max(1, barWidth - 10), barHeight, 20, 20);
+            g2.fillRoundRect(x, y, Math.max(1, barWidth - 10), barHeight, 12, 12);
+
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Segoe UI", Font.BOLD, 12));
+
+            String value = String.valueOf(array[i]);
+
+            FontMetrics metrics = g2.getFontMetrics();
+            int textWidth = metrics.stringWidth(value);
+
+            int textX = (x + (barWidth - textWidth) / 2) - 5;
+            int textY = Math.max(padding + metrics.getAscent(), y - 6);
+
+            g2.drawString(value, textX, textY);
         }
+
+        g2.dispose();
 
     }
 }

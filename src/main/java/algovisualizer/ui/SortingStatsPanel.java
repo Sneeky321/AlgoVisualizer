@@ -11,13 +11,13 @@ public class SortingStatsPanel extends JPanel {
     private final JLabel swapLabel;
     private final JLabel writeLabel;
 
-    private static final Color BACKGROUND = new Color(36, 47, 64);
-    private static final Color TEXT_COLOR = new Color(225, 232, 242);
-    private static final Color SECONDARY_COLOR = new Color(155, 169, 190);
+    private static final Color BACKGROUND = new Color(40, 50, 60);
+    private static final Color SECONDARY_COLOR = new Color(155, 170, 190);
+    private static final Color TEXT_COLOR = new Color(225, 230, 240);
 
     public SortingStatsPanel() {
         setLayout(new GridLayout(1, 4, 12, 0));
-        setBackground(new Color(28, 37, 52));
+        setBackground(new Color(30, 40, 50));
         setBorder(new EmptyBorder(10, 15, 15, 15));
 
         timeLabel = createValueLabel("0.000 ms");
@@ -43,7 +43,7 @@ public class SortingStatsPanel extends JPanel {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBackground(BACKGROUND);
-        card.setBorder(new EmptyBorder(12, 15, 10, 15));
+        card.setBorder(new EmptyBorder(12, 10, 10, 15));
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 11));

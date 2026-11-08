@@ -14,6 +14,7 @@ public class SortAnimator {
     private final SortingStatsPanel statsPanel;
     private long sortTimeNs;
     private final Timer timer;
+    private Runnable onAnimationFinished;
 
     private List<SortEvent> events;
     private int currentEventIndex;
@@ -63,7 +64,7 @@ public class SortAnimator {
 
         switch(currentEvent.type()){
             case COMPARE -> {
-                panel.setHighligtedOperation(
+                panel.setHighlightedOperation(
                         currentEvent.firstIndex(),
                         currentEvent.secondIndex(),
                         SortEvent.Type.COMPARE
@@ -79,7 +80,7 @@ public class SortAnimator {
                 array[currentEvent.secondIndex()] = temp;
 
 
-                panel.setHighligtedOperation(
+                panel.setHighlightedOperation(
                         currentEvent.firstIndex(),
                         currentEvent.secondIndex(),
                         SortEvent.Type.SWAP
@@ -91,7 +92,7 @@ public class SortAnimator {
                 panel.getArray()[currentEvent.firstIndex()] =
                         currentEvent.value();
 
-                panel.setHighligtedOperation(
+                panel.setHighlightedOperation(
                         currentEvent.firstIndex(),
                         -1,
                         SortEvent.Type.WRITE
@@ -103,6 +104,9 @@ public class SortAnimator {
         currentEventIndex++;
 
         if(currentEventIndex >= events.size()){
+            if(onAnimationFinished != null){
+                onAnimationFinished.run();
+            }
             timer.stop();
             panel.clearHighlight();
         }
@@ -115,6 +119,10 @@ public class SortAnimator {
 
     public boolean isRunning(){
         return timer.isRunning();
+    }
+
+    public void setOnAnimationFinished(Runnable onAnimationFinished){
+        this.onAnimationFinished = onAnimationFinished;
     }
 
     public void countEvents(){
