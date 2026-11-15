@@ -1,6 +1,5 @@
-package algovisualizer.ui;
+package algovisualizer.ui.sorting;
 
-import algovisualizer.sorting.BubbleSort;
 import algovisualizer.sorting.RecordingSortObserver;
 import algovisualizer.sorting.SortEvent;
 import algovisualizer.sorting.SortingAlgorithm;

@@ -1,5 +1,5 @@
 
-package algovisualizer.ui;
+package algovisualizer.ui.sorting;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

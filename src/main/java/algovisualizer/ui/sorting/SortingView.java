@@ -1,4 +1,4 @@
-package algovisualizer.ui;
+package algovisualizer.ui.sorting;
 
 import algovisualizer.sorting.BubbleSort;
 import algovisualizer.sorting.InsertionSort;
@@ -9,7 +9,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class VisualizerFrame extends JFrame {
+public class SortingView extends JPanel {
+    private final Runnable onBack;
     private final SortingPanel sortingPanel;
     private final SortAnimator animator;
     private final JComboBox<String> algorithmSelector;
@@ -18,9 +19,8 @@ public class VisualizerFrame extends JFrame {
     private static final Color PANEL_BACKGROUND = new Color(40, 50, 60);
     private static final Color TEXT_COLOR = new Color(225, 230, 240);
 
-    public VisualizerFrame(){
-        super("Algorithm Visualizer");
-
+    public SortingView(Runnable onBack){
+        this.onBack = onBack;
         sortingPanel = new SortingPanel(10);
         SortingStatsPanel statsPanel = new SortingStatsPanel();
         animator = new SortAnimator(sortingPanel, statsPanel, new BubbleSort());
@@ -40,22 +40,22 @@ public class VisualizerFrame extends JFrame {
         JPanel bottomPanel = createBottomPanel(statsPanel);
 
         setLayout(new BorderLayout());
-        getContentPane().setBackground(BACKGROUND);
+        setBackground(BACKGROUND);
 
         add(topPanel, BorderLayout.NORTH);
         add(sortingPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
-
-        setSize(1000, 700);
-        setMinimumSize(new Dimension(800, 600));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
     }
 
     private JPanel createTopPanel() {
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(BACKGROUND);
         topPanel.setBorder(new EmptyBorder(15, 20, 15, 20));
+
+        JButton backButton = new JButton("Back");
+        styleButton(backButton, new Color(65, 85, 115));
+
+        backButton.addActionListener(e -> onBack.run());
 
         styleComboBox();
 
@@ -66,6 +66,7 @@ public class VisualizerFrame extends JFrame {
         algorithmLabel.setForeground(TEXT_COLOR);
         algorithmLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
+        selectorPanel.add(backButton);
         selectorPanel.add(algorithmLabel);
         selectorPanel.add(algorithmSelector);
 

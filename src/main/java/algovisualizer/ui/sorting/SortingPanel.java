@@ -1,4 +1,4 @@
-package algovisualizer.ui;
+package algovisualizer.ui.sorting;
 
 import algovisualizer.sorting.SortEvent;
 
