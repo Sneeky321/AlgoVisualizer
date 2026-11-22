@@ -24,4 +24,12 @@ public class Graph {
     public List<String> getNeighbours(String vertex){
         return adjacencyList.getOrDefault(vertex, Collections.emptyList());
     }
+
+    public boolean containsVertex(String vertex){
+        return adjacencyList.containsKey(vertex);
+    }
+
+    public List<String> getVertices(){
+        return new ArrayList<>(adjacencyList.keySet());
+    }
 }
