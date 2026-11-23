@@ -9,7 +9,7 @@ public class MainMenuPanel extends JPanel {
     private static final Color PANEL_BACKGROUND = new Color(40, 50, 60);
     private static final Color TEXT_COLOR = new Color(225, 230, 240);
 
-    public MainMenuPanel(Runnable onSortingSelected){
+    public MainMenuPanel(Runnable onSortingSelected, Runnable onGraphSelected){
         setLayout(new BorderLayout());
         setBackground(BACKGROUND);
         setBorder(new EmptyBorder(40, 60, 40, 60));
@@ -56,7 +56,8 @@ public class MainMenuPanel extends JPanel {
 
         sortingButton.addActionListener(e -> onSortingSelected.run());
 
-        graphButton.setEnabled(false);
+        graphButton.addActionListener(e -> onGraphSelected.run());
+
         structuresButton.setEnabled(false);
 
         aboutButton.addActionListener(e ->

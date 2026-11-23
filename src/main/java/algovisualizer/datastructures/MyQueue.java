@@ -1,5 +1,8 @@
 package algovisualizer.datastructures;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyQueue<T> {
     private static class Node<T>{
         T data;
@@ -39,10 +42,20 @@ public class MyQueue<T> {
     }
 
     @Override
-    public String toString() {
-        return "MyQueue{" +
-                "head=" + head.data +
-                ", tail=" + tail.data +
-                '}';
+    public String toString(){
+        return getElements().toString();
+    }
+
+    public List<T> getElements(){
+        List<T> elements = new ArrayList<>();
+
+        Node<T> current = head;
+
+        while(current != null){
+            elements.add(current.data);
+            current = current.next;
+        }
+
+        return elements;
     }
 }

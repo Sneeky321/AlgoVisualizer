@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Set;
 
 public class BFS {
-
     public List<String> traverse(Graph graph, String start){
+        return traverse(graph, start, null);
+    }
+
+    public List<String> traverse(Graph graph, String start, GraphObserver observer){
         List<String> result = new ArrayList<>();
 
         if(!graph.containsVertex(start)){
@@ -24,6 +27,11 @@ public class BFS {
 
         while(!queue.isEmpty()){
             String current = queue.dequeue();
+
+            if(observer != null){
+                observer.onVisit(current);
+            }
+
             result.add(current);
 
             for(String neighbour : graph.getNeighbours(current)){
@@ -32,6 +40,10 @@ public class BFS {
                     queue.enqueue(neighbour);
                 }
             }
+        }
+
+        if(observer != null){
+            observer.onFinish();
         }
 
         return result;
