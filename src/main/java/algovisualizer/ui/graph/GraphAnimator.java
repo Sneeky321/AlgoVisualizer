@@ -32,12 +32,20 @@ public class GraphAnimator {
         graphPanel.setVisitedVertices(visitedVertices);
         graphPanel.setCurrentVertex(null);
 
-        if(this.events.isEmpty()){
+        resume(delay);
+    }
+
+    public void resume(int delay){
+        if(events == null || currentIndex >= events.size() || timer != null){
             return;
         }
 
         timer = new Timer(delay, e -> playNextEvent());
         timer.start();
+    }
+
+    public boolean hasRemainingEvents(){
+        return events != null && currentIndex < events.size();
     }
 
     private void playNextEvent() {
@@ -78,5 +86,18 @@ public class GraphAnimator {
             timer.stop();
             timer = null;
         }
+    }
+
+    public void reset(){
+        stop();
+
+        events = null;
+        currentIndex = 0;
+        currentVertex = null;
+
+        visitedVertices.clear();
+
+        graphPanel.setVisitedVertices(visitedVertices);
+        graphPanel.setCurrentVertex(null);
     }
 }

@@ -3,6 +3,7 @@ package algovisualizer.ui.graph;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.List;
 
 public class GraphControlPanel extends JPanel {
     private static final Color BACKGROUND = new Color(30, 40, 50);
@@ -14,9 +15,12 @@ public class GraphControlPanel extends JPanel {
 
     private final JButton startButton;
     private final JButton stopButton;
+    private final JButton generateButton;
 
     private final JSlider delaySlider;
     private final JLabel delayLabel;
+
+    private final JSpinner vertexCountSpinner;
 
     public GraphControlPanel(Runnable onBack){
         setLayout(new BorderLayout());
@@ -33,6 +37,7 @@ public class GraphControlPanel extends JPanel {
 
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
+        generateButton = new JButton("Generate Graph");
         JButton backButton = new JButton("Back");
 
         styleComboBox(algorithmSelector);
@@ -40,7 +45,12 @@ public class GraphControlPanel extends JPanel {
 
         styleButton(startButton, new Color(50, 140, 105));
         styleButton(stopButton, new Color(170, 75, 75));
+        styleButton(generateButton, new Color(65, 115, 155));
         styleButton(backButton, new Color(65, 85, 115));
+
+        vertexCountSpinner = new JSpinner(
+                new SpinnerNumberModel(6, 4, 12, 1)
+        );
 
         backButton.addActionListener(e -> onBack.run());
 
@@ -48,10 +58,13 @@ public class GraphControlPanel extends JPanel {
         topPanel.setBackground(BACKGROUND);
 
         topPanel.add(backButton);
+        topPanel.add(generateButton);
         topPanel.add(new JLabel("Algorithm:"));
         topPanel.add(algorithmSelector);
         topPanel.add(new JLabel("Start vertex:"));
         topPanel.add(startVertexSelector);
+        topPanel.add(new JLabel("Vertices:"));
+        topPanel.add(vertexCountSpinner);
 
         for(Component component : topPanel.getComponents()){
             if(component instanceof JLabel label){
@@ -75,6 +88,10 @@ public class GraphControlPanel extends JPanel {
 
         delayLabel = new JLabel("Animation delay: 700 ms");
         delayLabel.setForeground(TEXT_COLOR);
+
+        delaySlider.addChangeListener(e ->
+                delayLabel.setText("Animation delay: " + delaySlider.getValue() + " ms")
+        );
 
         JPanel delayPanel = new JPanel(new BorderLayout(0, 5));
         delayPanel.setBackground(BACKGROUND);
@@ -107,5 +124,41 @@ public class GraphControlPanel extends JPanel {
         comboBox.setForeground(TEXT_COLOR);
         comboBox.setBackground(PANEL_BACKGROUND);
         comboBox.setFocusable(false);
+    }
+
+    public String getSelectedAlgorithm(){
+        return (String) algorithmSelector.getSelectedItem();
+    }
+
+    public String getSelectedStartVertex(){
+        return (String) startVertexSelector.getSelectedItem();
+    }
+
+    public int getDelay(){
+        return delaySlider.getValue();
+    }
+
+    public void setOnStart(Runnable action){
+        startButton.addActionListener(e -> action.run());
+    }
+
+    public void setOnStop(Runnable action){
+        stopButton.addActionListener(e -> action.run());
+    }
+
+    public void setOnGenerate(Runnable action){
+        generateButton.addActionListener(e -> action.run());
+    }
+
+    public void updateStartVertices(List<String> verices){
+        startVertexSelector.removeAllItems();
+
+        for(String vertex : verices){
+            startVertexSelector.addItem(vertex);
+        }
+    }
+
+    public int getVertexCount(){
+        return (int) vertexCountSpinner.getValue();
     }
 }
