@@ -46,7 +46,7 @@ public class MainMenuPanel extends JPanel {
 
         JButton structuresButton = createModuleButton(
                 "Search Algorithms",
-                "Visualize searching algorithms"
+                "Visualize search algorithms"
         );
 
         JButton aboutButton = createModuleButton(
