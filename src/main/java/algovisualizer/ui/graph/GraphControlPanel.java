@@ -54,6 +54,13 @@ public class GraphControlPanel extends JPanel {
 
         backButton.addActionListener(e -> onBack.run());
 
+        JPanel legenPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15 ,0));
+        legenPanel.setBackground(BACKGROUND);
+
+        legenPanel.add(createLegendItem("Current", new Color(220, 180, 50)));
+        legenPanel.add(createLegendItem("Visited", new Color(60, 155, 110)));
+        legenPanel.add(createLegendItem("Unvisited", new Color(55, 115, 165)));
+
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         topPanel.setBackground(BACKGROUND);
 
@@ -65,6 +72,7 @@ public class GraphControlPanel extends JPanel {
         topPanel.add(startVertexSelector);
         topPanel.add(new JLabel("Vertices:"));
         topPanel.add(vertexCountSpinner);
+        topPanel.add(legenPanel, BorderLayout.EAST);
 
         for(Component component : topPanel.getComponents()){
             if(component instanceof JLabel label){
@@ -124,6 +132,32 @@ public class GraphControlPanel extends JPanel {
         comboBox.setForeground(TEXT_COLOR);
         comboBox.setBackground(PANEL_BACKGROUND);
         comboBox.setFocusable(false);
+    }
+
+    private JPanel createLegendItem(String text, Color color){
+        JPanel item = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
+        item.setBackground(BACKGROUND);
+
+        JPanel dot = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g){
+                super.paintComponent(g);
+                g.setColor(color);
+                g.fillOval(0, 0, getWidth(), getHeight());
+            }
+        };
+
+        dot.setOpaque(false);
+        dot.setPreferredSize(new Dimension(11, 11));
+
+        JLabel label = new JLabel(text);
+        label.setForeground(TEXT_COLOR);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+
+        item.add(dot);
+        item.add(label);
+
+        return item;
     }
 
     public String getSelectedAlgorithm(){
