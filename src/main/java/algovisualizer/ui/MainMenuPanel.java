@@ -9,7 +9,10 @@ public class MainMenuPanel extends JPanel {
     private static final Color PANEL_BACKGROUND = new Color(40, 50, 60);
     private static final Color TEXT_COLOR = new Color(225, 230, 240);
 
-    public MainMenuPanel(Runnable onSortingSelected, Runnable onGraphSelected){
+    public MainMenuPanel(Runnable onSortingSelected,
+                         Runnable onGraphSelected,
+                         Runnable onSearchSelected)
+    {
         setLayout(new BorderLayout());
         setBackground(BACKGROUND);
         setBorder(new EmptyBorder(40, 60, 40, 60));
@@ -44,7 +47,7 @@ public class MainMenuPanel extends JPanel {
                 "Explore graph traversal algorithms"
         );
 
-        JButton structuresButton = createModuleButton(
+        JButton searchingButton = createModuleButton(
                 "Search Algorithms",
                 "Visualize search algorithms"
         );
@@ -58,7 +61,7 @@ public class MainMenuPanel extends JPanel {
 
         graphButton.addActionListener(e -> onGraphSelected.run());
 
-        structuresButton.setEnabled(false);
+        searchingButton.addActionListener(e -> onSearchSelected.run());
 
         aboutButton.addActionListener(e ->
                 JOptionPane.showMessageDialog(
@@ -71,7 +74,7 @@ public class MainMenuPanel extends JPanel {
 
         modulesPanel.add(sortingButton);
         modulesPanel.add(graphButton);
-        modulesPanel.add(structuresButton);
+        modulesPanel.add(searchingButton);
         modulesPanel.add(aboutButton);
 
         add(headerPanel, BorderLayout.NORTH);

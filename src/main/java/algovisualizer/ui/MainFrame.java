@@ -2,6 +2,7 @@ package algovisualizer.ui;
 
 import algovisualizer.ui.sorting.SortingView;
 import algovisualizer.ui.graph.GraphView;
+import algovisualizer.ui.searching.SearchView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class MainFrame extends JFrame {
     private static final String MENU = "MENU";
     private static final String SORTING = "SORTING";
     private static final String GRAPH = "GRAPH";
+    private static final String SEARCHING = "SEARCHING";
 
     public MainFrame(){
         super("AlgoVisualizer");
@@ -22,7 +24,8 @@ public class MainFrame extends JFrame {
 
         MainMenuPanel menuPanel = new MainMenuPanel(
                 () -> cardLayout.show(mainPanel, SORTING),
-                () -> cardLayout.show(mainPanel, GRAPH)
+                () -> cardLayout.show(mainPanel, GRAPH),
+                () -> cardLayout.show(mainPanel, SEARCHING)
         );
 
         SortingView sortingView = new SortingView(
@@ -33,9 +36,14 @@ public class MainFrame extends JFrame {
                 () -> cardLayout.show(mainPanel, MENU)
         );
 
+        SearchView searchView = new SearchView(
+                () -> cardLayout.show(mainPanel, MENU)
+        );
+
         mainPanel.add(menuPanel, MENU);
         mainPanel.add(sortingView, SORTING);
         mainPanel.add(graphView, GRAPH);
+        mainPanel.add(searchView, SEARCHING);
 
         add(mainPanel);
 
