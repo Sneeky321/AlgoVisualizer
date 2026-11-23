@@ -1,7 +1,6 @@
 package algovisualizer;
 
 import algovisualizer.ui.MainFrame;
-import algovisualizer.ui.sorting.SortingView;
 
 import javax.swing.*;
 

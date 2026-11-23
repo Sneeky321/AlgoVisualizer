@@ -16,7 +16,10 @@ public class SearchView extends JPanel {
     private final SearchAnimator animator;
     private final SearchStatsPanel statsPanel;
     private final JComboBox<String> algorithmSelector;
+    private final JComboBox<Integer> sizeSelector;
     private final JTextField targetField;
+
+    private JButton generateButton;
 
     private static final Color BACKGROUND = new Color(30, 40, 50);
     private static final Color PANEL_BACKGROUND = new Color(40, 50, 60);
@@ -30,11 +33,14 @@ public class SearchView extends JPanel {
         animator = new SearchAnimator(searchPanel);
 
         animator.setDelay(50);
+        animator.setOnAnimationFinished(() -> generateButton.setEnabled(true));
 
         algorithmSelector = new JComboBox<>(new String[]{
                 "Linear Search",
                 "Binary Search"
         });
+
+        sizeSelector = new JComboBox<>(new Integer[]{10, 20, 30, 40, 50});
 
         targetField = new JTextField(6);
 
@@ -123,7 +129,8 @@ public class SearchView extends JPanel {
         bottomPanel.setBackground(BACKGROUND);
         bottomPanel.setBorder(new EmptyBorder(5, 20, 15, 20));
 
-        JButton generateButton = new JButton("Generate");
+        generateButton = new JButton("Generate");
+
         JButton searchButton = new JButton("Search");
 
         styleButton(generateButton, new Color(65, 85, 115));
@@ -143,14 +150,22 @@ public class SearchView extends JPanel {
         targetField.setForeground(TEXT_COLOR);
         targetField.setCaretColor(TEXT_COLOR);
 
+        JLabel sizeLabel = new JLabel("Array size:");
+        sizeLabel.setForeground(TEXT_COLOR);
+        sizeLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        sizeSelector.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+
         inputPanel.add(targetLabel);
         inputPanel.add(targetField);
+        inputPanel.add(sizeLabel);
+        inputPanel.add(sizeSelector);
         inputPanel.add(generateButton);
         inputPanel.add(searchButton);
 
-        JSlider delaySlider = new JSlider(0, 200, 50);
-        delaySlider.setMajorTickSpacing(50);
-        delaySlider.setMinorTickSpacing(10);
+        JSlider delaySlider = new JSlider(0, 1000, 200);
+        delaySlider.setMajorTickSpacing(100);
+        delaySlider.setMinorTickSpacing(50);
         delaySlider.setPaintTicks(true);
         delaySlider.setPaintLabels(true);
         delaySlider.setBackground(BACKGROUND);
@@ -160,7 +175,7 @@ public class SearchView extends JPanel {
         delayPanel.setBackground(BACKGROUND);
         delayPanel.setBorder(new EmptyBorder(5, 10, 10, 10));
 
-        JLabel delayLabel = new JLabel("Animation delay: 50 ms");
+        JLabel delayLabel = new JLabel("Animation delay: 200 ms");
         delayLabel.setForeground(TEXT_COLOR);
         delayLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 
@@ -175,7 +190,8 @@ public class SearchView extends JPanel {
 
         generateButton.addActionListener(event -> {
             animator.stop();
-            searchPanel.generateArray(10);
+            int size = (int) sizeSelector.getSelectedItem();
+            searchPanel.generateArray(size);
             statsPanel.resetStats();
         });
 
@@ -242,6 +258,7 @@ public class SearchView extends JPanel {
 
         statsPanel.updateStats((int) comparisons, elapsedTime, result);
 
+        generateButton.setEnabled(false);
         animator.start(events);
     }
 

@@ -17,7 +17,7 @@ public class SearchStatsPanel extends JPanel {
 
         comparisonsLabel = createLabel("Comparisons: 0");
         timeLabel = createLabel("Time: 0 ms");
-        resultLabel = createLabel("Result: -");
+        resultLabel = createLabel("Result index: -");
 
         add(comparisonsLabel);
         add(timeLabel);
@@ -34,12 +34,12 @@ public class SearchStatsPanel extends JPanel {
     public void updateStats(int comparisons, double time, int result){
         comparisonsLabel.setText("Comparisons: " + comparisons);
         timeLabel.setText(String.format("Time: %.3f ms", time));
-        resultLabel.setText("Result: " + (result == -1 ? "Not found" : result));
+        resultLabel.setText("Result index: " + (result == -1 ? "Not found" : result));
     }
 
     public void resetStats(){
         comparisonsLabel.setText("Comparisons: 0");
         timeLabel.setText("Time: 0 ms");
-        resultLabel.setText("Result: -");
+        resultLabel.setText("Result index: -");
     }
 }

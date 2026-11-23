@@ -8,6 +8,7 @@ import java.util.List;
 public class SearchAnimator {
     private final SearchPanel searchPanel;
     private final Timer timer;
+    private Runnable onAnimationFinished;
 
     private List<SearchEvent> events;
     private int currentIndex = 0;
@@ -49,6 +50,10 @@ public class SearchAnimator {
 
         if(currentIndex >= events.size()){
             timer.stop();
+
+            if(onAnimationFinished != null){
+                onAnimationFinished.run();
+            }
         }
     }
 
@@ -58,5 +63,9 @@ public class SearchAnimator {
 
     public void setDelay(int delay){
         timer.setDelay(delay);
+    }
+
+    public void setOnAnimationFinished(Runnable callback){
+        this.onAnimationFinished = callback;
     }
 }

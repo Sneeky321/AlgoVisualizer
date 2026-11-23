@@ -63,14 +63,12 @@ public class MainMenuPanel extends JPanel {
 
         searchingButton.addActionListener(e -> onSearchSelected.run());
 
-        aboutButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(
-                        this,
-                        "AlgoVisualizer\nAlgorithm and Data Structure Visalizer",
-                        "About",
-                        JOptionPane.INFORMATION_MESSAGE
-                )
-        );
+        aboutButton.addActionListener(e -> {
+            AlgorithmInfoDialog dialog = new AlgorithmInfoDialog(
+                    SwingUtilities.getWindowAncestor(this)
+            );
+            dialog.setVisible(true);
+        });
 
         modulesPanel.add(sortingButton);
         modulesPanel.add(graphButton);
